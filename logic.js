@@ -133,8 +133,9 @@ function nextSession(){
   }
   switchMode(state.mode);
   if(state.autoStart){ start(); }
-  playBeep();
   persist();
+    updateStats();  
+
 }
 
 function endSession(){
@@ -142,11 +143,7 @@ function endSession(){
   nextSession();
 }
 
-function playBeep(){
-  const a = $('#beep');
-  a.currentTime = 0; 
-  a.play().catch(()=>{});
-}
+
 
 // ===== To‑Do Logic =====
 function renderTasks(){
@@ -229,7 +226,7 @@ function setupEventListeners() {
     persist(); 
   });
 
-  $('#saveSettingsBtn').addEventListener('click', ()=>{ persist(); playBeep(); });
+  $('#saveSettingsBtn').addEventListener('click', ()=>{ persist(); });
   $('#resetAllBtn').addEventListener('click', ()=>{
     if(confirm('Reset everything? This will clear your tasks and settings.')){
       localStorage.removeItem('pomodoro-simple');
@@ -237,7 +234,6 @@ function setupEventListeners() {
     }
   });
 
-  $('#testSound').addEventListener('click', playBeep);
 
   $('#addTodoBtn').addEventListener('click', ()=> addTask($('#todoInput').value));
   $('#todoInput').addEventListener('keydown', e=>{
